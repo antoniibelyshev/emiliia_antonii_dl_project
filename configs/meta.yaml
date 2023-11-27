@@ -1,11 +1,11 @@
 meta:
-  wandb_ssh_key: "YOUR KEY"
+  wandb_ssh_key: "7694788bdc5e6da87482e00cfb4349f137fdd5ad"
 
   wandb_init:
-    project: "test_run"
+    project: "test_run_simultanious"
     entity: "emiliia_antonii_dl_project"
 
-  type: "simultanious"
+  type: "all"
   # single -- single experiment
   # simultanious -- iterate over hyperparameters simultaniously
   # all -- consider all combinations of the hyperparameters

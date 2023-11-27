@@ -1,4 +1,6 @@
 from itertools import product
+from omegaconf.listconfig import ListConfig
+import copy
 
 
 def check_cfg(cfg):
@@ -17,7 +19,7 @@ def check_lists(cfg):
 
     for cfg_name in cfg:
         for value in cfg[cfg_name].values():
-            if isinstance(value, list):
+            if isinstance(value, ListConfig):
                 if length is None:
                     length = len(value)
                 elif length != len(value):
@@ -38,19 +40,19 @@ def get_single_experiment_cfg_list(cfg):
     list_hyperparameters = []
     for cfg_name in cfg_dict.keys():
         for parameter, value in cfg_dict[cfg_name].items():
-            if isinstance(value, list):
+            if isinstance(value, ListConfig):
                 list_hyperparameters_keys.append((cfg_name, parameter))
                 list_hyperparameters.append(value)
 
     if cfg.meta.type == "simultanious":
         iterator = zip(*list_hyperparameters)
     if cfg.meta.type == "all":
-        iterator = product(list_hyperparameters)
+        iterator = product(*list_hyperparameters)
     
     single_experiment_cfg_list = []
     for values in iterator:
         for value, (cfg_name, parameter) in zip(values, list_hyperparameters_keys):
             cfg_dict[cfg_name][parameter] = value
-        single_experiment_cfg_list.append(cfg_dict.copy())
+        single_experiment_cfg_list.append(copy.deepcopy(cfg_dict))
 
     return single_experiment_cfg_list

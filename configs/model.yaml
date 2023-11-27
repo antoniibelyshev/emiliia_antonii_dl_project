@@ -2,7 +2,10 @@ model:
   name: "default"
   embed_dim: 16
   ff_dim: 16
-  depth: 5
+  depth:
+    - 3
+    - 4
+    - 5
   heads: 4
   mlp_hidden:
     linear1: 16

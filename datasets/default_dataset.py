@@ -13,8 +13,7 @@ class DefaultDataset(AbstractDataset):
 
     def read(self, filename, zip_filename=None):
         if zip_filename is None:
-            with open(filename):
-                return pq.ParquetFile(train).read().to_pandas()
+            return pq.ParquetFile(filename).read().to_pandas()
         else:
             with zipfile.ZipFile(zip_filename, "r") as zipf:
                 with zipf.open(filename) as train:

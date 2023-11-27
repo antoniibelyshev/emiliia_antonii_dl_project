@@ -14,7 +14,7 @@ def main(cfg: DictConfig) -> None:
     check_cfg(cfg)
 
     single_experiment_cfg_list = get_single_experiment_cfg_list(cfg)
-
+    
     device = torch.device("cuda" if cfg.meta.use_gpu else "cpu")
 
     wandb.login(key=cfg.meta["wandb_ssh_key"])

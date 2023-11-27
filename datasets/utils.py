@@ -10,9 +10,6 @@ from sklearn.preprocessing import LabelEncoder
 from abc import ABC, abstractmethod
 
 
-import os
-
-
 class TorchDataset(Dataset):
     def __init__(self, X, y):
         super(TorchDataset, self).__init__()
