@@ -1,5 +1,5 @@
 meta:
-  wandb_ssh_key: "7694788bdc5e6da87482e00cfb4349f137fdd5ad"
+  wandb_ssh_key: "YOUR KEY"
 
   wandb_init:
     project: "test_run_simultanious"
