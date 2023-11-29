@@ -5,7 +5,7 @@ meta:
     project: "test_run_simultanious"
     entity: "emiliia_antonii_dl_project"
 
-  type: "all"
+  type: "single"
   # single -- single experiment
   # simultanious -- iterate over hyperparameters simultaniously
   # all -- consider all combinations of the hyperparameters

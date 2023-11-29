@@ -15,7 +15,9 @@ def main(cfg: DictConfig) -> None:
 
     single_experiment_cfg_list = get_single_experiment_cfg_list(cfg)
     
-    device = torch.device("cuda" if cfg.meta.use_gpu else "cpu")
+    use_gpu = cfg.meta.use_gpu and torch.cuda.is_available()
+
+    device = torch.device("cuda" if use_gpu else "cpu")
 
     wandb.login(key=cfg.meta["wandb_ssh_key"])
 
@@ -28,7 +30,7 @@ def main(cfg: DictConfig) -> None:
 
         record_cfg = {**single_cfg["dataset"], **single_cfg["model"], **single_cfg["trainer"]}
 
-        if cfg.meta.use_gpu:
+        if use_gpu:
             single_cfg["trainer"]["gpus"] = 1
 
 

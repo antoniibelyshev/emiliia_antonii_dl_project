@@ -1,5 +1,5 @@
-# Use a base image with your desired Python version
-FROM python:3.9
+# Start from a base image that includes CUDA and PyTorch
+FROM pytorch/pytorch:latest
 
 # Set the working directory in the container
 WORKDIR /main

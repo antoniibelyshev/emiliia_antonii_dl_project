@@ -27,8 +27,8 @@ class TorchDataset(Dataset):
 
 
 class AbstractDataset(ABC):
-    def __init__(self, filename, *read_args, trunc_dim=35, valid_size=0.2, batch_size=20, **read_kwargs):
-        self.dataset = self.get_dataset(filename, *read_args, **read_kwargs)
+    def __init__(self, workdir, filename, *read_args, trunc_dim=35, valid_size=0.2, batch_size=20, **read_kwargs):
+        self.dataset = self.get_dataset(workdir, filename, *read_args, **read_kwargs)
 
         self.X = self.dataset.iloc[:, :5]
         self.Y = self.dataset.iloc[:, 5:]
@@ -38,13 +38,13 @@ class AbstractDataset(ABC):
 
         self.batch_size = batch_size
 
-    def get_dataset(self, filename, *read_args, **read_kwargs):
-        dataset = self.read(filename, *read_args, **read_kwargs)
+    def get_dataset(self, workdir, filename, *read_args, **read_kwargs):
+        dataset = self.read(workdir, filename, *read_args, **read_kwargs)
         dataset = self.transform_to_canonical(dataset)
         return dataset
 
     @abstractmethod
-    def read(self, filename, *read_args, **read_kwargs):
+    def read(self, workdor, filename, *read_args, **read_kwargs):
         return
 
     @abstractmethod
