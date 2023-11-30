@@ -1,0 +1,5 @@
+name: "default"
+filename: "de_train.parquet"
+workdir: "/home/coder/project/"
+batch_size: 5
+trunc_dim: 35

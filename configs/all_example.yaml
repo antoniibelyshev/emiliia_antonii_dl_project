@@ -1,0 +1,5 @@
+defaults:
+  - dataset/all_example
+  - model/all_example
+  - trainer/small
+  - meta

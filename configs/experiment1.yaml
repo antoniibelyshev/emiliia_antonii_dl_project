@@ -1,0 +1,5 @@
+defaults:
+  - dataset/experiment1
+  - model/experiment1
+  - trainer/long
+  - meta

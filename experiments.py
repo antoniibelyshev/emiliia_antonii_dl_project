@@ -9,7 +9,7 @@ import wandb
 import torch
 
 
-@hydra.main(config_path="configs", config_name="config", version_base="1.1")
+@hydra.main(config_path="configs", config_name="experiment1", version_base="1.1")
 def main(cfg: DictConfig) -> None:
     check_cfg(cfg)
 

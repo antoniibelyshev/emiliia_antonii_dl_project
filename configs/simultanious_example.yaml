@@ -1,0 +1,5 @@
+defaults:
+  - dataset/simultanious_example
+  - model/simultanious_example
+  - trainer/small
+  - meta

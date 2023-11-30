@@ -1,6 +1,0 @@
-dataset:
-  name: "default"
-  filename: "de_train.parquet"
-  workdir: "/main/"
-  batch_size: 5
-  trunc_dim: 35
