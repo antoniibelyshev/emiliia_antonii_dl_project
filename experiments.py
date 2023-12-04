@@ -1,15 +1,15 @@
 from omegaconf import DictConfig
 import hydra
-from configs.utils import check_cfg, get_single_experiment_cfg_list
-from datasets import datasets_dict
-from models import models_dict
+from my_lib.configs import check_cfg, get_single_experiment_cfg_list
+from my_lib.datasets import datasets_dict
+from my_lib.models import models_dict
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import WandbLogger
 import wandb
 import torch
 
 
-@hydra.main(config_path="configs", config_name="experiment1", version_base="1.1")
+@hydra.main(config_path="configs", config_name="single_example", version_base="1.1")
 def main(cfg: DictConfig) -> None:
     check_cfg(cfg)
 
@@ -42,6 +42,10 @@ def main(cfg: DictConfig) -> None:
         trainer = pl.Trainer(**single_cfg["trainer"], logger=WandbLogger())
 
         trainer.fit(model)
+
+        valid_X, _ = dataset.get_tensor_data(torch.device("cpu"))
+        valid_pred = model(valid_X)
+        wandb.log({"final_loss": dataset.final_loss(valid_pred.detach().cpu().numpy())})
 
         run.finish()
 

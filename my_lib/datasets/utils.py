@@ -52,15 +52,11 @@ class AbstractDataset(ABC):
         return
 
     def get_dataloader(self, device=torch.device("cpu"), valid=False):
-        if valid:
-            idx = self.valid_idx
-            batch_size = len(idx)
-        else:
-            idx = self.train_idx
-            batch_size = self.batch_size
-        return DataLoader(TorchDataset(*self.get_tensor_data(idx, device)), batch_size=batch_size, shuffle=True)
+        batch_size = len(self.valid_idx) if valid else self.batch_size
+        return DataLoader(TorchDataset(*self.get_tensor_data(device, valid)), batch_size=batch_size, shuffle=True)
 
-    def get_tensor_data(self, idx, device):
+    def get_tensor_data(self, device, valid=True):
+        idx = self.valid_idx if valid else self.train_idx
         return torch.tensor(self.encoded_X.iloc[idx].values).to(device), torch.tensor(self.reduced_Y[idx], dtype=torch.float32).to(device)
 
     def update_train_valid_split(self, new_valid_size=None):
@@ -87,3 +83,6 @@ class AbstractDataset(ABC):
         for col in columns:
             self.encoded_X[col] = encoder.fit_transform(self.encoded_X[col])
             self.nu.append(len(self.encoded_X[col].unique()))
+
+    def final_loss(self, valid_pred):
+        return ((self.Y.iloc[self.valid_idx, :].values - self.reducer.inverse_transform(valid_pred)) ** 2).mean()

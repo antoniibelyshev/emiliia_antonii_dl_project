@@ -2,10 +2,12 @@ meta:
   wandb_ssh_key: "KEY"
 
   wandb_init:
-    project: "experiment1"
+    project: "example"
+    name: "single_example"
     entity: "emiliia_antonii_dl_project"
 
-  type: "all"
+
+  type: "single"
   # single -- single experiment
   # simultanious -- iterate over hyperparameters simultaniously
   # all -- consider all combinations of the hyperparameters
