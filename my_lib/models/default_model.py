@@ -35,9 +35,7 @@ class TabTransformer(pl.LightningModule):
 
     def __init__(
             self,
-            train_dataloader,
-            valid_dataloader,
-            class_sizes: Iterable[int],
+            dataset,
             dim_out: int,
             embed_dim: int = 16,
             ff_dim: int = 16,
@@ -52,6 +50,7 @@ class TabTransformer(pl.LightningModule):
 
         # embeddings
         self.embedding_layers = nn.ParameterList([])
+        class_sizes = dataset.nu
         for number_of_classes in class_sizes:
             self.embedding_layers.append(nn.Embedding(number_of_classes, embed_dim))
 
@@ -85,8 +84,8 @@ class TabTransformer(pl.LightningModule):
         self.lr = lr
         self.batch_size = batch_size
 
-        self.train_dataloader_ = train_dataloader
-        self.valid_dataloader_ = valid_dataloader
+        self.train_dataloader_ = dataset.get_dataloader()
+        self.valid_dataloader_ = dataset.get_dataloader(valid=True)
 
     def forward(self, inputs):
         embeddings = []

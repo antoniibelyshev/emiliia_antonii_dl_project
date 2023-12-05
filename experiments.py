@@ -22,21 +22,20 @@ def main(cfg: DictConfig) -> None:
     wandb.login(key=cfg.meta["wandb_ssh_key"])
 
     for i, single_cfg in enumerate(single_experiment_cfg_list):
-        dataset = datasets_dict[single_cfg["dataset"].pop("name")](**single_cfg["dataset"])
-        train_dataloader = dataset.get_dataloader(device)
-        valid_dataloader = dataset.get_dataloader(device, valid=True)
+        dataset = datasets_dict[single_cfg["dataset"].pop("name")](device, **single_cfg["dataset"])
 
-        model = models_dict[single_cfg["model"].pop("name")](train_dataloader, valid_dataloader, dataset.nu, dataset.trunc_dim, **single_cfg["model"]).to(device)
+        model = models_dict[single_cfg["model"].pop("name")](dataset, dataset.trunc_dim, **single_cfg["model"]).to(device)
 
         record_cfg = {**single_cfg["dataset"], **single_cfg["model"], **single_cfg["trainer"]}
 
         if use_gpu:
             single_cfg["trainer"]["gpus"] = 1
 
-
+        name = cfg.meta.wandb_init.pop("name") + str(i)
         run = wandb.init(
             config=record_cfg,
-            **cfg.meta.wandb_init
+            name=name,
+            **cfg.meta.wandb_init,
         )
 
         trainer = pl.Trainer(**single_cfg["trainer"], logger=WandbLogger())

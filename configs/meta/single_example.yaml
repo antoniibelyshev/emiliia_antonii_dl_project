@@ -1,0 +1,15 @@
+wandb_ssh_key: "KEY"
+
+wandb_init:
+  project: "single_example"
+  name: "experiment"
+  entity: "emiliia_antonii_dl_project"
+
+
+type: "single"
+# single -- single experiment
+# simultanious -- iterate over hyperparameters simultaniously
+# all -- consider all combinations of the hyperparameters
+
+use_gpu: True
+# if False then cpu is used

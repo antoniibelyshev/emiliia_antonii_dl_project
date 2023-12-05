@@ -5,8 +5,8 @@ import pyarrow.parquet as pq
 
 
 class DefaultDataset(AbstractDataset):
-    def __init__(self, workdir, filename, zip_filename=None, trunc_dim=35, valid_size=0.2, batch_size=20):
-        super().__init__(workdir, filename, zip_filename=zip_filename, trunc_dim=trunc_dim, valid_size=valid_size, batch_size=batch_size)
+    def __init__(self, device, workdir, filename, zip_filename=None, trunc_dim=35, valid_size=0.2, batch_size=20):
+        super().__init__(device, workdir, filename, zip_filename=zip_filename, trunc_dim=trunc_dim, valid_size=valid_size, batch_size=batch_size)
 
     def read(self, workdir, filename, zip_filename=None):
         if zip_filename is None:

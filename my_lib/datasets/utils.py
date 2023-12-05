@@ -27,7 +27,9 @@ class TorchDataset(Dataset):
 
 
 class AbstractDataset(ABC):
-    def __init__(self, workdir, filename, *read_args, trunc_dim=35, valid_size=0.2, batch_size=20, **read_kwargs):
+    def __init__(self, device, workdir, filename, *read_args, trunc_dim=35, valid_size=0.2, batch_size=20, **read_kwargs):
+        self.device = device
+
         self.dataset = self.get_dataset(workdir, filename, *read_args, **read_kwargs)
 
         self.X = self.dataset.iloc[:, :5]
@@ -51,9 +53,9 @@ class AbstractDataset(ABC):
     def transform_to_canonical(self, dataset):
         return
 
-    def get_dataloader(self, device=torch.device("cpu"), valid=False):
+    def get_dataloader(self, valid=False):
         batch_size = len(self.valid_idx) if valid else self.batch_size
-        return DataLoader(TorchDataset(*self.get_tensor_data(device, valid)), batch_size=batch_size, shuffle=True)
+        return DataLoader(TorchDataset(*self.get_tensor_data(self.device, valid)), batch_size=batch_size, shuffle=True)
 
     def get_tensor_data(self, device, valid=True):
         idx = self.valid_idx if valid else self.train_idx
